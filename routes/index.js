@@ -42,7 +42,8 @@ router.post('/dupemail', function(req, res, next) {
 });
 
 router.get('/signin', function(req, res, next) {
-  res.render('commons/sign-in', { title: 'Signin' });
+  var email = (req.cookies.email)?req.cookies.email:'';
+    res.render('commons/sign-in', { title: 'Signin', email:email });
 });
 
 router.post('/signin',function (req, res, next) {
@@ -54,6 +55,8 @@ router.post('/signin',function (req, res, next) {
       res.redirect('/signin');
     }else{
       req.session.user = {uid: users[0].uid, name: users[0].name, email: users[0].email, role:users[0].role};
+      if(req.body.rememberme) res.cookie('email',users[0].email, {maxAge: 86400 * 7});
+      else res.cookie('email', '', {maxAge: 0});
       res.redirect('/');
     }
 });
