@@ -7,6 +7,7 @@
   <body>
     <h1>Sign In</h1>
     <form  action="/signin" method="post">
+      <input type="hidden" name="forward" value="<%=locals.messages.forword%>">
       Email: <input type="email" name="email" id="email"  value="" required><p>
       Password: <input type="password" name="password" id="password" value="" required><p>
         <label><input type="checkbox" name="" id="rememberme" value="" required>Remenber Me</label><br>

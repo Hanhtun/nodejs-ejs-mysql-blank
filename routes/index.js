@@ -55,12 +55,18 @@ router.post('/signin',function (req, res, next) {
     console.log('users', users);
     if(users.length == 0 || !User.compare(req.body.password, users[0].password)){
       req.flash('warning', 'Your email does not exist or password is invalid!!');
+      if(req.body.forward) req.flash('forward', req.body.forward);
       res.redirect('/signin');
     }else{
       req.session.user = {uid: users[0].uid, name: users[0].name, email: users[0].email, role:users[0].role};
       if(req.body.rememberme) res.cookie('email',users[0].email, {maxAge: 86400 * 7});
       else res.cookie('email', '', {maxAge: 0});
-      if (users[0].role == 'ADMIN') {
+      if(req.body.forword) &&
+        (users[0]. role=='ADMIN' && req.body.forward.startWith('/admin')) ||
+         users[0]. role =='USER' && req.body.forward.startsWith('/members')
+       ) ) {
+        res.redirect(req.body.forword);
+      }else if (users[0].role == 'ADMIN') {
           res.redirect('/admin');
       }else{
           res.redirect('/members');
