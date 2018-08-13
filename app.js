@@ -32,6 +32,11 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use(function (req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -60,5 +65,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('commons/error'+ ((err.status == 404)?'-404':''));
 });
+
+
 
 module.exports = app;

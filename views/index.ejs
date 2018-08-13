@@ -8,7 +8,10 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <button type="button" onclick="loadDoc()" name="button">Change Content</button>
+    <% if(user) {%>
+      Welcome <%=user.name%>
+    <% } %>
+    <!-- <button type="button" onclick="loadDoc()" name="button">Change Content</button> -->
   </body>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
