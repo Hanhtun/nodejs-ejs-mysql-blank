@@ -10,6 +10,9 @@ var User = {
   findByEmail: function (email,callback) {
     var sql = 'SELECT * FROM users WHERE email = ?';
     return db.query(sql, [email], callback);
+  },
+  compare: function(cleartext, encrypted) {
+    return bcrypt.compareSync(cleartext, encrypted);
   }
 };
 

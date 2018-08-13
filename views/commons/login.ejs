@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form  id="frm" action="/login" method="post">
+      Email: <input type="email" id="email" name="email"  value="" required><p>
+      Password: <input type="password" id="password" name="password" value="" required><p>
+      <input type="button" id="save" value="login">
+    </form>
+  </body>
+  <script src="/js/jquery.min.js" charset="utf-8"></script>
+  <script src="/js/jquery.validate.js" charset="utf-8"></script>
+  <script type="text/javascript">
+  $(function() {
+    $('#frm').validate();
+    $('#save').on('click',function () {
+      if (!$('#frm').valid()) return false;
+    $.post(
+      '/login',
+      { email : $('#email').val(), password : $('#password').val()}
+    ).done(function (res) {
+      if(res.status){
+        location.href = '/';
+      }else{
+        $('#password').selectet();
+          alert(res.msg);
+      }
+    }).fail(function (err) {
+      alert(err.status + ' ' + err.responseText);
+    })
+  });
+});
+  </script>
+</html>

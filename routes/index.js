@@ -23,7 +23,7 @@ router.post('/signup', function(req, res, next) {
     }else {
       User.add(params, function (err2,result) {
         if(err2) throw err2;
-        res.redirect('/signin');
+          res.render('commons/sign-up-success', { title: 'Success Signup' });
       });
     }
   });
@@ -44,5 +44,38 @@ router.post('/dupemail', function(req, res, next) {
 router.get('/signin', function(req, res, next) {
   res.render('commons/sign-in', { title: 'Signin' });
 });
+
+router.post('/signin',function (req, res, next) {
+  User.findByEmail(req.body.email, function (err,users) {
+    if(err) next(err);
+    console.log('users', users);
+    if(users.length == 0 || !User.compare(req.body.password, users[0].password)){
+      req.flash('warning', 'Your email does not exist or password is invalid!!');
+      res.redirect('/signin');
+    }else{
+      req.session.user = {uid: users[0].uid, name: users[0].name, email: users[0].email, role:users[0].role};
+      res.redirect('/');
+    }
+});
+});
+
+router.get('/login',function (req, res, next) {
+  res.render('commons/login');
+});
+
+router.post('/login', function (req, res, next) {
+  User.findByEmail(req.body.email, function (err,users) {
+    if(err) next (err);
+    if(users.length == 0 || !User.compare(req.body.password, users[0].password)){
+      res.json({ status:false, msg:'Email Not exist  or  password not matched !'});
+    }else {
+      req.session.user = {uid: users[0].uid, name: users[0].name, email: users[0].email, role:users[0].role};
+      res.json({status:true});
+  }
+});
+});
+
+
+
 
 module.exports = router;

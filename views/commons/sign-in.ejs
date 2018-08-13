@@ -6,6 +6,17 @@
   </head>
   <body>
     <h1>Sign In</h1>
-
+    <form  action="/signin" method="post">
+      Email: <input type="email" name="email"  value="" required><p>
+      Password: <input type="password" name="password" value="" required><p>
+      <input type="submit"  value="Signin">
+    </form>
   </body>
+  <script type="text/javascript">
+    <% if(messages.warning) { %>
+      alert('<%=messages.warning%>');
+    <%
+    }
+    %>
+  </script>
 </html>
