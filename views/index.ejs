@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <button type="button" onclick="loadDoc()" name="button">Change Content</button>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    function loadDoc() {
+      $.ajax({
+        url: '/users/data',
+        type: "GET",
+        error: function (jqXHR) {
+          alert(jqXHR.responseText);
+        },
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    }
+  </script>
+</html>
